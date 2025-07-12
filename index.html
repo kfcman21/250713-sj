@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORE-DIVE 프로젝트 컨설팅 보고서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Pretendard 폰트 우선 적용, 없을 시 Noto Sans KR 사용 */
+        @font-face {
+            font-family: 'Pretendard';
+            src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css') format('woff2');
+            font-weight: 400 700;
+            font-display: swap;
+        }
+        body {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            background-color: #F0F9FF; /* sky-50 */
+            color: #1e3a8a; /* 기본 군청색 */
+        }
+        .nav-active {
+            color: #0d9488; /* teal-600 */
+            font-weight: 700;
+            border-bottom: 2px solid #0d9488;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-content.open {
+            max-height: 1000px; /* 충분한 높이 값 */
+            transition: max-height 1s ease-in-out;
+        }
+        .accordion-header .fa-chevron-down {
+            transition: transform 0.3s ease-in-out;
+        }
+        .accordion-header.active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+        .hero-bg {
+            background-color: #f0f7ff;
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(240, 249, 255, 1)), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2392c5fd' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-sky-50">
+
+    <nav id="navbar" class="bg-white/90 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="text-2xl font-bold text-teal-600">🧭 CORE-DIVE</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#objective" class="nav-link text-gray-600 hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium">🎯 프로젝트 개요</a>
+                        <a href="#model" class="nav-link text-gray-600 hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium">🔄 DIVE 모형</a>
+                        <a href="#activities" class="nav-link text-gray-600 hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium">🚀 주요 활동</a>
+                        <a href="#consulting" class="nav-link text-gray-600 hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium">🧐 컨설팅 의견</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">메뉴 열기</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#objective" class="nav-link text-gray-600 hover:bg-teal-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">🎯 프로젝트 개요</a>
+                <a href="#model" class="nav-link text-gray-600 hover:bg-teal-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">🔄 DIVE 모형</a>
+                <a href="#activities" class="nav-link text-gray-600 hover:bg-teal-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">🚀 주요 활동</a>
+                <a href="#consulting" class="nav-link text-gray-600 hover:bg-teal-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">🧐 컨설팅 의견</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-bg">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 leading-tight">CORE-DIVE 디지털 프로젝트</h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+                실생활 데이터로 사회 현안에 깊이 다이빙(DIVE)하며 <br class="hidden sm:block">미래시민역량을 키우는 교실 속 작은 혁신
+            </p>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-6 py-12">
+        <main>
+            <section id="objective" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-teal-600 mb-6 pb-2 border-b-2 border-teal-200">🎯 프로젝트 개요</h2>
+                
+                <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-900 p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="font-bold text-xl mb-2 flex items-center"><i class="fas fa-bullseye mr-3"></i>핵심 목적</h3>
+                    <p class="text-lg">
+                        CORE-DIVE 프로젝트는 학생들이 불확실한 미래에 능동적으로 대응하고, 사회적 책임감을 지닌 <strong class="font-semibold">미래 시민</strong>으로 성장하도록 돕습니다. 특히, 사회과 교육과정을 중심으로 <strong class="font-semibold text-amber-800">실생활 데이터를 활용</strong>하여 사회 현안을 깊이 있게 학습하는 경험을 제공합니다.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
+                        <i class="fas fa-users text-orange-500 text-4xl mb-3"></i>
+                        <h4 class="font-bold text-lg text-slate-700">공동체 윤리 역량</h4>
+                        <p class="text-sm text-slate-500 mt-2">공동체 구성원으로서 책임감을 갖고, 규범과 가치를 이해하며 책임감 있게 행동합니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
+                        <i class="fas fa-globe-americas text-sky-500 text-4xl mb-3"></i>
+                        <h4 class="font-bold text-lg text-slate-700">사회 참여 역량</h4>
+                        <p class="text-sm text-slate-500 mt-2">타인과 협력하여 문제를 해결하고, 능동적으로 실천에 참여하는 능력과 태도를 기릅니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
+                        <i class="fas fa-lightbulb text-yellow-500 text-4xl mb-3"></i>
+                        <h4 class="font-bold text-lg text-slate-700">비판적 사고 역량</h4>
+                        <p class="text-sm text-slate-500 mt-2">합리적 근거를 바탕으로 사회 현상을 분석하고, 성찰하여 바람직한 방향을 판단합니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
+                        <i class="fas fa-laptop-code text-teal-500 text-4xl mb-3"></i>
+                        <h4 class="font-bold text-lg text-slate-700">디지털 활용 역량</h4>
+                        <p class="text-sm text-slate-500 mt-2">디지털 기기로 정보를 탐색, 분석, 생성하고 윤리적으로 활용하는 능력과 태도를 함양합니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="model" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-teal-600 mb-6 pb-2 border-b-2 border-teal-200">🔄 CORE-DIVE 학습 모형</h2>
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700">
+                            '핵심에 뛰어들다'는 의미의 CORE-DIVE는 실생활 데이터 기반의 깊이 있는 학습을 위해 4단계로 구성된 프로젝트 학습 모형입니다.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                        <div class="flex flex-col items-center p-4 rounded-lg bg-sky-50">
+                            <div class="bg-sky-500 text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-3">D</div>
+                            <h3 class="text-xl font-bold text-sky-800">Data (데이터 탐색)</h3>
+                            <p class="mt-2 text-gray-600">실생활 데이터를 통해 사회 문제를 인식하는 단계입니다.</p>
+                        </div>
+                        <div class="flex flex-col items-center p-4 rounded-lg bg-sky-50">
+                            <div class="bg-sky-600 text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-3">I</div>
+                            <h3 class="text-xl font-bold text-sky-800">Insight (해결안 수집)</h3>
+                            <p class="mt-2 text-gray-600">문제 해결을 위한 자료를 수집하고 분석하며 통찰을 얻는 단계입니다.</p>
+                        </div>
+                        <div class="flex flex-col items-center p-4 rounded-lg bg-sky-50">
+                            <div class="bg-sky-700 text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-3">V</div>
+                            <h3 class="text-xl font-bold text-sky-800">Visualize (콘텐츠 제작)</h3>
+                            <p class="mt-2 text-gray-600">수집한 자료와 아이디어를 다양한 형태의 산출물로 시각화하는 단계입니다.</p>
+                        </div>
+                        <div class="flex flex-col items-center p-4 rounded-lg bg-sky-50">
+                            <div class="bg-sky-800 text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-3">E</div>
+                            <h3 class="text-xl font-bold text-sky-800">Engage (확장·전이)</h3>
+                            <p class="mt-2 text-gray-600">배운 내용을 학교와 사회로 확장하여 삶에 적용하고 실천하는 단계입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="activities" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-teal-600 mb-6 pb-2 border-b-2 border-teal-200">🚀 주요 활동 사례</h2>
+                <div class="space-y-4">
+
+                    <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-semibold text-lg text-gray-800 flex justify-between items-center hover:bg-teal-50 transition-colors">
+                            <span>🌍 기후위기: 재난·재해 대응 프로젝트</span>
+                            <i class="fas fa-chevron-down transform transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 border-t border-gray-200 text-gray-700 bg-teal-50">
+                                <p class="mb-4 text-base italic"><strong>핵심 아이디어:</strong> 인간은 자연환경에 의존하고 적응하며, 자연환경을 변형시키기도 한다.</p>
+                                <ul class="space-y-3">
+                                    <li><strong class="text-sky-700">D (데이터 탐색):</strong> '지표누리' 등에서 재난·재해 통계를 분석하여 문제의 심각성을 인식합니다.</li>
+                                    <li><strong class="text-sky-700">I (해결안 수집):</strong> 인터넷 매체를 활용해 재난의 원인을 조사하고, '일회용품 전면 금지' 같은 주제로 토론하며 해결책을 모색합니다.</li>
+                                    <li><strong class="text-sky-700">V (콘텐츠 제작):</strong> Canva 등을 활용해 재난·재해 대응 방안을 알리는 홍보 카드뉴스를 모둠별로 제작합니다.</li>
+                                    <li><strong class="text-sky-700">E (확장·전이):</strong> 전교어린이회의에 기후행동 참여를 독려하고, '기후행동 오다' 캠페인을 진행하는 등 실천으로 연결합니다.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-semibold text-lg text-gray-800 flex justify-between items-center hover:bg-teal-50 transition-colors">
+                            <span>🤝 인권보호: 공감 시민 되기 프로젝트</span>
+                            <i class="fas fa-chevron-down transform transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 border-t border-gray-200 text-gray-700 bg-teal-50">
+                                <p class="mb-4 text-base italic"><strong>핵심 아이디어:</strong> 인권은 개인과 국가의 노력으로 만들어졌으며 서로의 인권을 존중해야 한다.</p>
+                                <ul class="space-y-3">
+                                    <li><strong class="text-sky-700">D (데이터 탐색):</strong> '혐오표현' 사례와 같은 언어 데이터를 수집하고, 가짜뉴스를 판별하며 일상 속 인권침해의 위험성을 인식합니다.</li>
+                                    <li><strong class="text-sky-700">I (해결안 수집):</strong> '노키즈존' 문제를 주제로 토론하고, 온라인 협업으로 세계인권선언문을 분석하며 인권 보호를 위한 국가의 노력을 조사합니다.</li>
+                                    <li><strong class="text-sky-700">V (콘텐츠 제작):</strong> 인권 보호를 위해 노력한 아동 인권운동가 위인전을 북크리에이터로 만들거나, 인권을 주제로 디지털 포스터를 그립니다.</li>
+                                    <li><strong class="text-sky-700">E (확장·전이):</strong> 국민신문고에 노키즈존 대안을 제안하고, 학교 인권 탐사대 활동으로 교내 시설 개선안을 건의합니다.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-semibold text-lg text-gray-800 flex justify-between items-center hover:bg-teal-50 transition-colors">
+                            <span>🏙️ 지역불균형: 공존 시민 되기 프로젝트</span>
+                            <i class="fas fa-chevron-down transform transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 border-t border-gray-200 text-gray-700 bg-teal-50">
+                                <p class="mb-4 text-base italic"><strong>핵심 아이디어:</strong> 자연적·인문적 특성은 특정 지역의 인구 분포, 구성, 인구 이동에 영향을 미친다.</p>
+                                <ul class="space-y-3">
+                                    <li><strong class="text-sky-700">D (데이터 탐색):</strong> 인구, 교통 등 인문지리 데이터를 분석하고 카토그램을 만들며 지역 불균형과 지방 소멸의 심각성을 깨닫습니다.</li>
+                                    <li><strong class="text-sky-700">I (해결안 수집):</strong> 브레인스토밍으로 문제 해결방안을 생성하고, '공공기관 이전'과 같은 사회 현안을 주제로 토론합니다.</li>
+                                    <li><strong class="text-sky-700">V (콘텐츠 제작):</strong> 모둠별로 지역 홍보 자료와 기념품을 디자인하고, 3D 메타버스로 새로운 지역 개발 구상도를 만듭니다.</li>
+                                    <li><strong class="text-sky-700">E (확장·전이):</strong> '천하제일 우리 지역 홍보회'를 개최하여 다른 학년 학생들에게 지역의 매력을 알립니다.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-semibold text-lg text-gray-800 flex justify-between items-center hover:bg-teal-50 transition-colors">
+                            <span>⚖️ 학급입법: 준법 시민 되기 프로젝트</span>
+                            <i class="fas fa-chevron-down transform transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                             <div class="p-6 border-t border-gray-200 text-gray-700 bg-teal-50">
+                                <p class="mb-4 text-base italic"><strong>핵심 아이디어:</strong> 우리 사회에는 일상을 규율하는 법이 있으며, 재판을 통해 권리를 실현할 수 있다.</p>
+                                <ul class="space-y-3">
+                                    <li><strong class="text-sky-700">D (데이터 탐색):</strong> 법령 데이터를 수집하고, '법이 없다면?'을 상상하며 법의 필요성을 인식합니다.</li>
+                                    <li><strong class="text-sky-700">I (해결안 수집):</strong> 온라인 재판 체험을 통해 법적 절차를 이해하고, 확증편향의 위험성에 대해 학습합니다.</li>
+                                    <li><strong class="text-sky-700">V (콘텐츠 제작):</strong> '교실 CCTV 설치'를 주제로 토론하고, 생활 속 법을 소개하는 웹툰을 제작합니다.</li>
+                                    <li><strong class="text-sky-700">E (확장·전이):</strong> 토의를 거쳐 우리 반에 필요한 법을 직접 만들고, 실천하며 그 의미를 되새깁니다.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="consulting" class="mb-16 scroll-mt-20">
+                <h2 class="text-3xl font-bold text-teal-600 mb-6 pb-2 border-b-2 border-teal-200">🧐 컨설팅 의견</h2>
+                <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-green-600 mb-4 flex items-center"><i class="fas fa-thumbs-up mr-3"></i>프로젝트 강점 (Strengths)</h3>
+                        <ul class="space-y-4 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">삶과 연계된 깊이 있는 학습</strong><br>
+                                    실생활 데이터를 활용하여 사회 현안을 자신의 문제로 인식하고 해결책을 모색하는 과정은 학습의 깊이를 더하고 내적 동기를 강하게 유발합니다.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">미래 핵심역량의 통합적 함양</strong><br>
+                                    프로젝트의 모든 단계가 비판적 사고, 디지털 활용, 사회 참여, 공동체 윤리 역량을 종합적으로 기를 수 있도록 체계적으로 설계되었습니다.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">학생 주도성 극대화</strong><br>
+                                    문제 발견부터 해결, 산출물 제작 및 공유까지 학생이 주도적으로 참여하며 배움의 주체로 성장할 수 있는 기회를 풍부하게 제공합니다.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">다양한 에듀테크의 효과적 활용</strong><br>
+                                    Google Workspace, Padlet, Canva, 3D 메타버스 등 다양한 디지털 도구를 학습 목표와 단계에 맞게 적절히 활용하여 협업과 표현의 폭을 넓혔습니다.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-orange-600 mb-4 flex items-center"><i class="fas fa-lightbulb mr-3"></i>보완점 및 제언 (Suggestions)</h3>
+                        <ul class="space-y-4 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-3 mt-1"><i class="fas fa-tools"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">디지털 도구 진입장벽 완화</strong><br>
+                                    프로젝트에 다양한 에듀테크가 활용되지만, 모든 교사와 학생이 익숙하지 않을 수 있습니다. 핵심 도구 2~3개를 선정한 '기본형' 모델과 모든 도구를 활용하는 '심화형' 모델로 나누어 제공하면 현장 적용성이 높아질 것입니다. 또한, 각 도구별 튜토리얼 영상을 QR코드로 제공하는 것도 좋은 방법입니다.
+                                </div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-orange-500 mr-3 mt-1"><i class="fas fa-tasks"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">평가의 체계화 및 다각화</strong><br>
+                                    단계별 성취 목표는 제시되어 있으나, 최종 산출물 외에 '과정'을 평가할 구체적인 루브릭이 보강되면 좋겠습니다. '협업 능력', '자료 탐색 및 비판 능력' 등 역량별 평가 기준을 담은 학생용 자기평가지, 동료평가지를 프로젝트 시작 시 함께 제공하여 학생들이 자신의 성장을 꾸준히 성찰하게 할 수 있습니다.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-3 mt-1"><i class="fas fa-puzzle-piece"></i></span>
+                                <div>
+                                    <strong class="font-semibold text-gray-800">교과 융합의 확장</strong><br>
+                                    현재 사회과 중심으로 국어, 미술, 도덕, 실과 등이 융합되어 있습니다. 여기에 '수학' 교과를 연계하여 통계 자료를 직접 그래프로 만들고 해석하는 활동을 강화하거나, '과학'과 연계하여 기후 위기의 과학적 원인을 더 깊이 탐구하는 등 융합의 범위를 확장하면 더욱 풍성한 학습이 가능할 것입니다.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="bg-slate-800 text-white">
+        <div class="container mx-auto py-6 px-6 text-center text-sm">
+            <p>본 페이지는 'CORE-DIVE 프로젝트 컨설팅 보고서'를 바탕으로 교육적 활용을 위해 재구성한 웹페이지입니다.</p>
+            <p class="mt-2 text-slate-400">Generated by AI for Educational Purposes.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('#mobile-menu a');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+
+            // Accordion Functionality
+            const accordionHeaders = document.querySelectorAll(".accordion-header");
+            accordionHeaders.forEach(header => {
+                header.addEventListener("click", (event) => {
+                    const activeHeader = document.querySelector(".accordion-header.active");
+                    
+                    // Collapse the currently open item if it's not the one being clicked
+                    if (activeHeader && activeHeader !== header) {
+                        activeHeader.classList.remove("active");
+                        activeHeader.nextElementSibling.style.maxHeight = 0;
+                    }
+
+                    // Toggle the clicked item
+                    header.classList.toggle("active");
+                    const accordionContent = header.nextElementSibling;
+                    if (header.classList.contains("active")) {
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                    } else {
+                        accordionContent.style.maxHeight = 0;
+                    }
+                });
+            });
+
+            // Active Navigation Link on Scroll
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll("nav a.nav-link");
+            const navBarHeight = document.getElementById('navbar').offsetHeight;
+
+            const observer = new IntersectionObserver((entries) => {
+                let currentActive = '';
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        currentActive = entry.target.id;
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-active');
+                    if (link.hash === '#' + currentActive) {
+                        link.classList.add('nav-active');
+                    }
+                });
+
+            }, { 
+                rootMargin: `-${navBarHeight}px 0px -65% 0px`,
+                threshold: 0
+            }); 
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
